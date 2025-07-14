@@ -1,6 +1,7 @@
 package com.morosa.abode.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import java.util.List;
@@ -20,13 +21,16 @@ public class Nurse extends EntityModel {
     private String email;
     private String phone;
     private String password;
-
+    private LocalDate dob;
     @JoinColumn(name = "LOCATION")
     @OneToOne(cascade = CascadeType.PERSIST)
     private Location location;
 
     @Column(name = "PROFILE_PHOTO_URL")
     private String profilePhotoUrl;
+    
+    @Column(name = "RESET_PASSWORD")
+    private boolean resetPassword;
 
     @ElementCollection
     private List<String> services;

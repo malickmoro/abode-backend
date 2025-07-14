@@ -7,6 +7,7 @@ package com.morosa.abode.exceptions;
 import com.morosa.abode.payload.response.ErrorResponse;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.context.ApplicationContextException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,6 +31,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleException(ImageAssetNotFoundException ex) {
         ErrorResponse reponse = new ErrorResponse("01", HttpStatus.BAD_REQUEST, ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(reponse);
+    }
+    
+    @ExceptionHandler({ApplicationContextException.class})
+    public ResponseEntity<ErrorResponse> handleException(ApplicationContextException ex) {
+        ErrorResponse reponse = new ErrorResponse("01", HttpStatus.NOT_FOUND, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(reponse);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

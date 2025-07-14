@@ -19,12 +19,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // ✅ new syntax
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/nurses/apply", "/").permitAll()
+                .csrf(csrf -> csrf.disable()) // ✅ new syntax
+                .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                        "/api/nurses/apply",
+                        "/api/admin/nurse-applications/*",
+                        "/")
+                .permitAll()
                 .anyRequest().authenticated()
-            )
-            .formLogin(form -> form.disable()); // remove default UI
+                )
+                .formLogin(form -> form.disable()); // remove default UI
 
         return http.build();
     }

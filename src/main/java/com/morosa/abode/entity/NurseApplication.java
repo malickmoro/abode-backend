@@ -14,6 +14,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,7 @@ public class NurseApplication extends EntityModel {
     private String surname;
     private String email;
     private String phone;
+    private LocalDate dob;
 
     @JoinColumn(name = "LOCATION")
     @OneToOne(cascade = CascadeType.PERSIST)

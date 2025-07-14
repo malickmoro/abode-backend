@@ -4,14 +4,22 @@
  */
 package com.morosa.abode.service;
 
+import com.morosa.abode.entity.Nurse;
 import com.morosa.abode.entity.NurseApplication;
 import com.morosa.abode.entity.enums.ApplicationStatus;
+import com.morosa.abode.exceptions.ApplicationNotFoundException;
 import com.morosa.abode.exceptions.ImageAssetNotFoundException;
+import com.morosa.abode.payload.request.ApprovalRequest;
 import com.morosa.abode.payload.request.NurseApplicationRequest;
+import com.morosa.abode.payload.request.RejectionRequest;
 import com.morosa.abode.repository.NurseApplicationRepository;
+import com.morosa.abode.repository.NurseRepository;
 import com.morosa.abode.utils.CloudinaryUtil;
 import com.morosa.abode.utils.Functions;
 import com.morosa.abode.utils.GPSUtil;
+import com.morosa.abode.utils.PasswordUtil;
+import java.util.ArrayList;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +36,16 @@ public class NurseApplicationService {
     private final NurseApplicationRepository applicationRepository;
 
     @Autowired
+    private final NurseRepository nurseRepository;
+
+    @Autowired
     private CloudinaryUtil cloudinaryUtil;
-    
+
     @Autowired
     private GPSUtil gpsUtil;
+
+    @Autowired
+    private PasswordUtil passwordUtil;
 
     private String idCardUrl, certUrl, photoUrl;
 
@@ -51,8 +65,8 @@ public class NurseApplicationService {
         if (req.getNssCertificate() == null) {
             throw new ImageAssetNotFoundException("NSS Certificate is requires for application");
         }
-        
-        if (req.getPhoto()== null) {
+
+        if (req.getPhoto() == null) {
             throw new ImageAssetNotFoundException("Photo is requires for application");
         }
 
@@ -75,5 +89,44 @@ public class NurseApplicationService {
         application.setLocation(gpsUtil.getLocation(req.getGpsAddress()));
         application.setServices(req.getServices());
         applicationRepository.save(application);
+    }
+
+    public void approve(ApprovalRequest request) {
+        Optional<NurseApplication> application = applicationRepository.findByApplicationId(request.getApplicationId());
+        if (!application.isPresent()) {
+            throw new ApplicationNotFoundException("Application with provided id not found");
+        }
+
+        NurseApplication found = application.get();
+        found.setStatus(ApplicationStatus.APPROVED);
+        createAndSaveNurseProfile(found);
+        applicationRepository.save(found);
+    }
+
+    public void reject(RejectionRequest request) {
+        Optional<NurseApplication> application = applicationRepository.findByApplicationId(request.getApplicationId());
+        if (!application.isPresent()) {
+            throw new ApplicationNotFoundException("Application with provided id not found");
+        }
+
+        NurseApplication found = application.get();
+        found.setStatus(ApplicationStatus.REJECTED);
+        found.setRejectionReason(request.getReason());
+        applicationRepository.save(found);
+
+    }
+
+    private void createAndSaveNurseProfile(NurseApplication found) {
+        Nurse profile = new Nurse();
+        profile.setFirstName(found.getFirstName());
+        profile.setSurname(found.getSurname());
+        profile.setEmail(found.getEmail());
+        profile.setLocation(found.getLocation());
+        profile.setPassword(passwordUtil.generateTemporaryPassword());
+        profile.setServices(new ArrayList<>(found.getServices()));
+        profile.setPhone(found.getPhone());
+        profile.setDob(found.getDob());
+        profile.setResetPassword(true);
+        nurseRepository.save(profile);
     }
 }

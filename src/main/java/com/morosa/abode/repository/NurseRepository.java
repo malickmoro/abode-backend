@@ -4,8 +4,7 @@
  */
 package com.morosa.abode.repository;
 
-import com.morosa.abode.entity.NurseApplication;
-import java.util.Optional;
+import com.morosa.abode.entity.Nurse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Repository;
  * @author plutus
  */
 @Repository
-public interface NurseApplicationRepository extends JpaRepository<NurseApplication, String>{
-    Optional<NurseApplication> findByApplicationId(String applicationId);
-    
+public interface NurseRepository extends JpaRepository<Nurse, String> {
+
 }

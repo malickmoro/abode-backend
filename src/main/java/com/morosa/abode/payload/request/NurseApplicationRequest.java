@@ -32,6 +32,8 @@ public class NurseApplicationRequest {
     
     @NotBlank(message = "GPS address is required")
     private String gpsAddress; 
+    
+    private String dob;
   
     @NotEmpty(message = "At least one service must be selected")
     private List<String> services;

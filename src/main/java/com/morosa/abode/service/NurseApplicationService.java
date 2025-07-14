@@ -4,6 +4,7 @@
  */
 package com.morosa.abode.service;
 
+import com.morosa.abode.dto.NurseApplicationAdminDTO;
 import com.morosa.abode.entity.Nurse;
 import com.morosa.abode.entity.NurseApplication;
 import com.morosa.abode.entity.enums.ApplicationStatus;
@@ -19,6 +20,7 @@ import com.morosa.abode.utils.Functions;
 import com.morosa.abode.utils.GPSUtil;
 import com.morosa.abode.utils.PasswordUtil;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,5 +130,19 @@ public class NurseApplicationService {
         profile.setDob(found.getDob());
         profile.setResetPassword(true);
         nurseRepository.save(profile);
+    }
+
+    public List<NurseApplicationAdminDTO> getPendingApplications() {
+        return applicationRepository.findByStatus(ApplicationStatus.PENDING)
+                .stream()
+                .map(NurseApplicationAdminDTO::from)
+                .toList();
+    }
+
+    public List<NurseApplicationAdminDTO> getApprovedApplications() {
+        return applicationRepository.findByStatus(ApplicationStatus.APPROVED)
+                .stream()
+                .map(NurseApplicationAdminDTO::from)
+                .toList();
     }
 }

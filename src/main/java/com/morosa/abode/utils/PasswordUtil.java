@@ -5,6 +5,7 @@
 package com.morosa.abode.utils;
 
 import java.util.UUID;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,15 +15,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class PasswordUtil {
 
-    public String generateTemporaryPassword(){
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    public String generateTemporaryPassword() {
         return UUID.randomUUID().toString().replaceAll("_", "").substring(0, 8);
     }
-    
-    public String hashPassword(String password) {
-        return "";
+
+    public static String hash(String password) {
+        return encoder.encode(password);
     }
 
-    public boolean verifyPassword(String hash, String password) {
-        return true;
+    public static boolean match(String raw, String hashed) {
+        return encoder.matches(raw, hashed);
     }
 }

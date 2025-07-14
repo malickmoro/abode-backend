@@ -23,6 +23,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                         "/api/nurses/apply",
+                        "/api/nurses/search",
+                        "/api/ratings",
                         "/api/admin/nurse-applications/*",
                         "/")
                 .permitAll()

@@ -28,14 +28,19 @@ public class Nurse extends EntityModel {
 
     @Column(name = "PROFILE_PHOTO_URL")
     private String profilePhotoUrl;
-    
+
     @Column(name = "RESET_PASSWORD")
     private boolean resetPassword;
 
     @ElementCollection
+    @CollectionTable(name = "nurse_services", joinColumns = @JoinColumn(name = "nurse_id"))
+    @Column(name = "services")
     private List<String> services;
 
-    private Double rating = 0.0;
+    @OneToMany(mappedBy = "nurse")
+    private List<Rating> ratings;
+
+    private double averageRating = 0;
 
     private LocalDateTime lastLoggedIn;
 }

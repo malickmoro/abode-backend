@@ -5,10 +5,9 @@
 package com.morosa.abode.repository;
 
 import com.morosa.abode.entity.Nurse;
+import com.morosa.abode.entity.Rating;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,9 +15,8 @@ import org.springframework.stereotype.Repository;
  * @author plutus
  */
 @Repository
-public interface NurseRepository extends JpaRepository<Nurse, String> {
+public interface RatingRepository extends JpaRepository<Rating, String> {
 
-    @Query("SELECT n FROM Nurse n JOIN n.services s WHERE s IN :services GROUP BY n.id")
-    List<Nurse> findByAnyService(@Param("services") List<String> services);
+    List<Rating> findByNurse(Nurse nurse);
 
 }

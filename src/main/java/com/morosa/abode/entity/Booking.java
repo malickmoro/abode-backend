@@ -5,15 +5,15 @@
 package com.morosa.abode.entity;
 
 import com.morosa.abode.entity.enums.BookingStatus;
-import com.morosa.abode.entity.enums.PaymentStatus;
+import com.morosa.abode.entity.enums.PaymentMethod;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -21,27 +21,31 @@ import lombok.Setter;
  * @author plutus
  */
 @Entity
+@Table(name = "BOOKINGS")
 @Getter
 @Setter
-@NoArgsConstructor
-@Table(name = "NURSE_BOOKINGS")
 public class Booking extends EntityModel {
+
+    private String bookingCode;
+
+    private String customerName;
+
+    private String customerPhone;
 
     @ManyToOne
     @JoinColumn(name = "nurse_id", nullable = false)
     private Nurse nurse;
 
-    private String userId;
+    private String serviceType;
 
-    private String service;
-
-    private double amount;
-
-    private double tip;
+    private LocalDateTime appointmentDate;
 
     @Enumerated(EnumType.STRING)
-    private BookingStatus status; // PENDING, CONFIRMED, COMPLETED
+    private BookingStatus status = BookingStatus.PENDING;
 
     @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus; // HELD, RELEASED
+    private PaymentMethod paymentMethod;
+
+    private String notes; // optional
+
 }

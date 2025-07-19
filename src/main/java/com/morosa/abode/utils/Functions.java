@@ -29,5 +29,10 @@ public class Functions {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return EARTH_RADIUS_KM * c;
     }
+    
+    public static String generateBookingCode(){
+        String code = "";
+        return code;
+    }
 
 }

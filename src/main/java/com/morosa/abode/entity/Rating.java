@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "NURSE_RATINGS")
+@Table(name = "RATINGS")
 public class Rating extends EntityModel {
 
     @ManyToOne

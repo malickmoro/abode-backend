@@ -28,7 +28,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "NURSE_APPLICATIONS")
+@Table(name = "APPLICATIONS")
 public class NurseApplication extends EntityModel {
 
     private String applicationId;

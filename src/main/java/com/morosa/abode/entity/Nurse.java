@@ -43,4 +43,8 @@ public class Nurse extends EntityModel {
     private double averageRating = 0;
 
     private LocalDateTime lastLoggedIn;
+    
+    public String getFullname(){
+        return firstName + " " + surname; 
+    }
 }

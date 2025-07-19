@@ -30,26 +30,26 @@ public class AdminController {
 
     private final NurseApplicationService applicationService;
 
-    @PostMapping("/nurse-applications/approve")
+    @PostMapping("/applications/approve")
     public ResponseEntity<?> approve(@RequestBody @Valid ApprovalRequest request) {
         applicationService.approve(request);
         return ResponseEntity.ok("Application approved");
 
     }
 
-    @PostMapping("/nurse-applications/reject")
+    @PostMapping("/applications/reject")
     public ResponseEntity<?> reject(@RequestBody @Valid RejectionRequest request) {
         applicationService.reject(request);
         return ResponseEntity.ok("Application rejected");
     }
     
-    @GetMapping("/nurse-applications/pending")
+    @GetMapping("/applications/pending")
     public ResponseEntity<?> pending(){
         List<NurseApplicationAdminDTO> pendingList = applicationService.getPendingApplications();
         return ResponseEntity.ok(new ApiReponseWithList("00", true, pendingList));
     }
     
-    @GetMapping("/nurse-applications/approved")
+    @GetMapping("/applications/approved")
     public ResponseEntity<?> approved(){
         List<NurseApplicationAdminDTO> approvedList = applicationService.getApprovedApplications();
         return ResponseEntity.ok(new ApiReponseWithList("00", true, approvedList));

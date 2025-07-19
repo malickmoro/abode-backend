@@ -8,6 +8,6 @@ package com.morosa.abode.entity.enums;
  *
  * @author plutus
  */
-public enum BookingStatus {
-    PENDING, CONFIRMED, CANCELLED, COMPLETED
+public enum PaymentMethod {
+    PAY_ON_ARRIVAL, PAY_ONLINE
 }

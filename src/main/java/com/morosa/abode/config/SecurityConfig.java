@@ -22,10 +22,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // ✅ new syntax
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                        "/api/nurses/apply",
-                        "/api/nurses/search",
-                        "/api/ratings",
-                        "/api/admin/nurse-applications/*",
+                        "/api/nurses/*",
+                        "/api/bookings/**",
+                        "/api/admin/applications/*",
                         "/")
                 .permitAll()
                 .anyRequest().authenticated()
